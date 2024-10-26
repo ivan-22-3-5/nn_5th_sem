@@ -31,8 +31,10 @@ def main():
 
     perceptron = Perceptron(input_size=2)
 
+    print(f'Initial weights: {perceptron.weights}')
     print(f'Accuracy before training: {test_perceptron(x_test, y_test, perceptron) * 100:.2f}%')
     perceptron.train((x_train, y_train))
+    print(f'Weights after training: {perceptron.weights}')
     print(f'Accuracy after training: {test_perceptron(x_test, y_test, perceptron) * 100:.2f}%')
 
 
