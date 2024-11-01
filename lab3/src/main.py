@@ -2,7 +2,8 @@ from src.network import Network
 
 
 def main():
-    print(Network(2, 4, 3).predict([2, 3]))
+    net = Network(test_mode=True)
+    print(net._get_internal_errors([0.2, 0.1], [0.4, 0.6]))
 
 
 if __name__ == '__main__':
