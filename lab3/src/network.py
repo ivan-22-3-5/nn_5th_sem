@@ -51,10 +51,11 @@ class Network:
                 errors[-1].append(term * derivative(neuron.activation_function, neuron.weight(inp), dx=0.001))
         return list(reversed(errors))
 
-    def train(self, inputs, expected_outputs, epochs):
+    def train(self, inputs: list[list[float]], expected_outputs: list[list[float]], epochs: int):
         for _ in range(epochs):
-            outputs = self._get_internal_outputs(inputs)
-            errors = self._get_internal_errors(inputs, expected_outputs)
-            for layer, layer_errors, inp in zip(self.layers, errors, [inputs] + outputs):
-                for neuron, error in zip(layer, layer_errors):
-                    neuron.update(inp, error)
+            for inp, expected_output in zip(inputs, expected_outputs):
+                outputs = self._get_internal_outputs(inp)
+                errors = self._get_internal_errors(inp, expected_output)
+                for layer, layer_errors, net in zip(self.layers, errors, [inp] + outputs):
+                    for neuron, error in zip(layer, layer_errors):
+                        neuron.update(net, error)
