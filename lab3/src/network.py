@@ -50,3 +50,11 @@ class Network:
                 term = sum(prev_layer[k].weights[index] * errors[-2][k] for k in range(len(prev_layer)))
                 errors[-1].append(term * derivative(neuron.activation_function, neuron.weight(inp), dx=0.001))
         return list(reversed(errors))
+
+    def train(self, inputs, expected_outputs, epochs):
+        for _ in range(epochs):
+            outputs = self._get_internal_outputs(inputs)
+            errors = self._get_internal_errors(inputs, expected_outputs)
+            for layer, layer_errors, inp in zip(self.layers, errors, [inputs] + outputs):
+                for neuron, error in zip(layer, layer_errors):
+                    neuron.update(inp, error)

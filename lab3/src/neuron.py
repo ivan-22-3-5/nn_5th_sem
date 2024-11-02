@@ -21,5 +21,8 @@ class Neuron:
     def weight(self, inputs: list):
         return np.dot(self.weights, inputs) + self.bias
 
+    def update(self, inputs: list, error: float):
+        self.weights += self.learning_rate * error * np.array(inputs)
+
     def __repr__(self):
         return f'Neuron({self.weights}, input_size={len(self.weights)}, bias={self.bias})'
