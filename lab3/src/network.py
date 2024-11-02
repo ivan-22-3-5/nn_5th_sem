@@ -6,6 +6,8 @@ from src.neuron import Neuron
 
 class Network:
     def __init__(self, *layer_sizes, test_mode: bool = False):
+        if len(layer_sizes) < 3:
+            raise ValueError('Network must have at least 3 layers')
         if test_mode:
             self.layers = [
                 [Neuron(2, [0.1, 0.3]), Neuron(2, [-0.2, 0.4]), Neuron(2, [0.3, -0.25]), Neuron(2, [0.15, 0.1])],
