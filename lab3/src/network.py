@@ -34,14 +34,19 @@ class Network:
 
     def _get_internal_errors(self, inputs, expected_outputs):
         outputs = self._get_internal_outputs(inputs)
-        errors = [[]]
-        for neuron, output, expected_output in zip(self.layers[-1], outputs[-1], expected_outputs):
-            errors[0].append(
-                (expected_output - output) * derivative(neuron.activation_function, output, dx=0.001))
+        errors = []
+
+        output_layer_errors = []
+        for neuron, actual_output, expected_output in zip(self.layers[-1], outputs[-1], expected_outputs):
+            pre_activation = neuron.weight(outputs[-2])
+            der = derivative(neuron.activation_function, pre_activation, dx=0.001)
+            output_layer_errors.append((expected_output - actual_output) * der)
+        errors.append(output_layer_errors)
+
         for layer, prev_layer, inp in zip(reversed(self.layers[:-1]), reversed(self.layers[1:]),
                                           reversed(([inputs] + outputs)[:-2])):
             errors.append([])
             for index, neuron in enumerate(layer):
                 term = sum(prev_layer[k].weights[index] * errors[-2][k] for k in range(len(prev_layer)))
-                errors[-1].append(term * derivative(neuron.activation_function, neuron.weight(inp)))
-        return errors
+                errors[-1].append(term * derivative(neuron.activation_function, neuron.weight(inp), dx=0.001))
+        return list(reversed(errors))
