@@ -13,16 +13,20 @@ class Neuron:
         self.activation_function = activation_function
         self.learning_rate = learning_rate
 
-    def predict(self, inputs: list):
-        if len(inputs) != len(self.weights):
-            raise ValueError(f'Expected {len(self.weights)} inputs, got {len(inputs)}')
-        return self.activation_function(self.weight(inputs))
+    def predict(self, inp: list):
+        if len(inp) != len(self.weights):
+            raise ValueError(f'Expected {len(self.weights)} inputs, got {len(inp)}')
+        return self.activation_function(self.weight(inp))
 
-    def weight(self, inputs: list):
-        return np.dot(self.weights, inputs) + self.bias
+    def weight(self, inp: list):
+        return np.dot(self.weights, inp) + self.bias
 
-    def update(self, inputs: list, error: float):
-        self.weights += self.learning_rate * error * np.array(inputs)
+    def update(self, inp: list, err: float):
+        self.weights += self.learning_rate * err * np.array(inp)
 
     def __repr__(self):
-        return f'Neuron({self.weights}, input_size={len(self.weights)}, bias={self.bias})'
+        return (f'Neuron({self.weights}, '
+                f'input_size={len(self.weights)}, '
+                f'bias={self.bias}, '
+                f'learning_rate={self.learning_rate}'
+                f'weights={self.weights})')
