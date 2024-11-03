@@ -6,8 +6,6 @@ from src.neuron import Neuron
 
 class Network:
     def __init__(self, *layer_sizes, test_mode: bool = False):
-        if len(layer_sizes) < 3:
-            raise ValueError('Network must have at least 3 layers')
         if test_mode:
             self.layers = [
                 [Neuron(2, [0.1, 0.3]), Neuron(2, [-0.2, 0.4]), Neuron(2, [0.3, -0.25]), Neuron(2, [0.15, 0.1])],
@@ -18,6 +16,8 @@ class Network:
                 for neuron in layer:
                     neuron.activation_function = lambda x: 1 / (1 + np.exp(-x))
         else:
+            if len(layer_sizes) < 3:
+                raise ValueError('Network must have at least 3 layers')
             self.layers = []
             for number_of_neurons, input_size in zip(layer_sizes[1:], layer_sizes):
                 self.layers.append([Neuron(input_size) for _ in range(number_of_neurons)])
