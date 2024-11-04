@@ -8,7 +8,7 @@ class Neuron:
                  bias=0,
                  activation_function=lambda x: x / (1 + abs(x)),
                  learning_rate=0.2):
-        self.weights = np.array(weights) if weights is not None else np.random.rand(input_size)
+        self.weights = np.array(weights) if weights is not None else np.random.rand(input_size) - 0.5
         self.bias = bias
         self.activation_function = activation_function
         self.learning_rate = learning_rate
