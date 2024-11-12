@@ -50,4 +50,4 @@ class Network:
                 errors = self._calculate_errors(input, expected_output)
                 for layer, layer_errors, net in zip(self.layers, errors, output):
                     for neuron, error in zip(layer, layer_errors):
-                        neuron.update(net, error)
+                        neuron.update_weights(net, error)
