@@ -42,10 +42,12 @@ def main():
         regression_data, regression_targets, test_size=0.2, random_state=42
     )
 
-    mlp_class = MLPClassifier(hidden_layer_sizes=(10, 10), activation='relu', solver="adam", max_iter=10000)
+    mlp_class = MLPClassifier(hidden_layer_sizes=(10, 10), activation='relu', solver="adam", learning_rate_init=0.2,
+                              max_iter=400)
     mlp_class.fit(x_train_class, y_train_class)
 
-    mlp_reg = MLPRegressor(hidden_layer_sizes=(10, 10), activation='relu', solver="adam", max_iter=10000)
+    mlp_reg = MLPRegressor(hidden_layer_sizes=(10, 10), activation='relu', solver="adam", learning_rate_init=0.2,
+                           max_iter=400)
     mlp_reg.fit(x_train_reg, y_train_reg)
 
     y_pred_class = mlp_class.predict(x_test_class)
