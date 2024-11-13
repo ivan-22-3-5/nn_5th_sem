@@ -23,7 +23,7 @@ class Network:
             outputs.append([neuron.predict(outputs[-1]) for neuron in layer])
         return outputs
 
-    def _calculate_errors(self, input, expected_output):
+    def _calculate_errors(self, input: list[float], expected_output: list[float]) -> list[list[float]]:
         iternal_outputs = self._calculate_outputs(input)
         errors = [[]]
 
@@ -48,6 +48,6 @@ class Network:
             for input, expected_output in zip(inputs, expected_outputs):
                 output = self._calculate_outputs(input)
                 errors = self._calculate_errors(input, expected_output)
-                for layer, layer_errors, net in zip(self.layers, errors, output):
+                for layer, layer_errors, layer_input in zip(self.layers, errors, output):
                     for neuron, error in zip(layer, layer_errors):
-                        neuron.update_weights(net, error)
+                        neuron.update_weights(layer_input, error)
