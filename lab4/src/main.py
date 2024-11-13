@@ -1,5 +1,7 @@
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier, MLPRegressor
+from sklearn.metrics import accuracy_score, classification_report, r2_score, mean_absolute_error, mean_squared_error
 from matplotlib import pyplot as plt
 
 
@@ -39,6 +41,21 @@ def main():
     x_train_reg, x_test_reg, y_train_reg, y_test_reg = train_test_split(
         regression_data, regression_targets, test_size=0.2, random_state=42
     )
+
+    mlp_class = MLPClassifier(hidden_layer_sizes=(10, 10), activation='relu', solver="adam", max_iter=10000)
+    mlp_class.fit(x_train_class, y_train_class)
+
+    mlp_reg = MLPRegressor(hidden_layer_sizes=(10, 10), activation='relu', solver="adam", max_iter=10000)
+    mlp_reg.fit(x_train_reg, y_train_reg)
+
+    y_pred_class = mlp_class.predict(x_test_class)
+    y_pred_reg = mlp_reg.predict(x_test_reg)
+
+    print("Classification Accuracy:", accuracy_score(y_test_class, y_pred_class))
+    print("Classification Report:\n", classification_report(y_test_class, y_pred_class))
+    print("Regression R2 Score:", r2_score(y_test_reg, y_pred_reg))
+    print("Regression Mean Absolute Error:", mean_absolute_error(y_test_reg, y_pred_reg))
+    print("Regression Mean Squared Error:", mean_squared_error(y_test_reg, y_pred_reg))
 
 
 if __name__ == '__main__':
